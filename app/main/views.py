@@ -5,6 +5,8 @@ from . import main
 from ..requests import get_movies,get_movie,search_movie
 from .forms import ReviewForm
 from ..models import Review
+from flask_login import login_required
+from flask_login import UserMixin
 # from ..forms import ReviewForm
 # Reviews = Review.all_review
 
@@ -50,6 +52,7 @@ def search(movie_name):
     return render_template('search.html', title=title, movies=searched_movies)
 
 @main.route('/movie/review/new/<int:id>', methods = ['GET','POST'])
+@login_required
 def new_review(id):
     form = ReviewForm() # create an instance of the ReviewForm class
     movie = get_movie(id) # call the get_movie and pass in the ID to get the movie object for the movie with that ID.
@@ -64,3 +67,7 @@ def new_review(id):
 
     title = f'{movie.title} review'
     return render_template('new_review.html',title = title, review_form=form, movie=movie)
+
+    
+
+
